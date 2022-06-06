@@ -1,3 +1,4 @@
+from tkinter import N
 import spacy
 from spacy.matcher import Matcher
 import re
@@ -26,9 +27,9 @@ class resumeExtraction:
         # Education Degrees
         self.EDUCATION = [
             'BE', 'BSC', 'BS',
-            'ME', 'MS', 'BCOM', 'BCS', 'BCA', 'MCA',
+            'ME', 'MS', 'MIS', 'BCOM', 'BCS', 'BCA', 'MCA',
             'BTECH', 'MTECH', 'DIPLOMA', '12TH', '10TH',
-            'SSC', 'HSC', 'CBSE', 'ICSE', 'X', 'XII', 'XTH', 'XIITH', 'FE', 'SE', 'TE'
+            'SSC', 'HSC', 'CBSE', 'ICSE', 'X', 'XII', 'XTH', 'XIITH', 'FE', 'SE', 'TE',
         ]
         self.RESUME_SECTIONS_GRAD = [
             'accomplishments',
@@ -45,23 +46,75 @@ class resumeExtraction:
             'summary',
             'leadership'
         ]
+        # Skills File
         self.data = pd.read_csv("assets/data/skillsDB.csv")
         self.SKILLS_DB = list(self.data.columns.values)
+        # Natural Language and vocabulary
         self.nlp = spacy.load('en_core_web_sm')
         self.matcher = Matcher(self.nlp.vocab)
+        # Details to Return
+        self.__details = {
+            'name': None,
+            'email': None,
+            'mobile_number': None,
+            'skills': None,
+            'education': None,
+            'degree': None,
+            'projects': None,
+            'experience': None,
+            'company_names': None,
+            'total_experience': None,
+            'text': None,
+        }
 
-    # def __clean_text(self,resume_text):
-    #     resume_text = re.sub('http\S+\s*', ' ', resume_text)  # remove URLs
-    #     resume_text = re.sub('RT|cc', ' ', resume_text)  # remove RT and cc
-    #     resume_text = re.sub('#\S+', '', resume_text)  # remove hashtags
-    #     resume_text = re.sub('@\S+', '  ', resume_text)  # remove mentions
-    #     resume_text = re.sub('[%s]' % re.escape("""!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"""), ' ', resume_text)  # remove punctuations
-    #     resume_text = re.sub(r'[^\x00-\x7f]',r' ', resume_text)
-    #     resume_text = re.sub('\s+', ' ', resume_text)  # remove extra whitespace
-    #     resume_text = resume_text.lower()  # convert to lowercase
-    #     resume_text_tokens = word_tokenize(resume_text)  # tokenize
-    #     filtered_text = [w for w in resume_text_tokens if not w in self.STOPWORDS]  # remove stopwords
-    #     return ' '.join(filtered_text)
+    def get_extracted_data(self, file, extension):
+        text = ""
+        raw_text = ""
+
+        if extension == "pdf":
+            for page in fitz.open(file):
+                raw_text = raw_text + str(page.get_text())
+            text = " ".join(raw_text.split('\n'))
+
+        elif extension == "docx":
+            temp = docx2txt.process(file)
+            raw_text = [line.replace('\t', ' ')
+                    for line in temp.split('\n') if line]
+            text = ' '.join(raw_text)
+
+        elif extension == "doc":
+            return None
+            # try:
+            #     try:
+            #         import textract
+            #     except ImportError:
+            #             return ' '
+            #     text = textract.process(doc_path).decode('utf-8')
+            #     return text
+            # except KeyError:
+            #     return ' '
+
+        self.__assign_details(text, raw_text)
+
+        return self.__details
+
+    def __assign_details(self, text, raw_text):
+        self.__details['name'] = self.__extract_name(text)
+        self.__details['mobile_number'] = self.__extract_mobile_number(text)
+        self.__details['email'] = self.__extract_email(text)
+        self.__details['skills'] = self.__extract_skills(text)
+        self.__details['degree'] = self.__extract_education(text)
+        # Text that is essential for further processing
+        self.__details['text'] = text
+        raw_entity = self.__extract_entity_sections(raw_text)
+        try:
+            self.__details['experience'] = raw_entity['experience']
+            self.__details['education'] = raw_entity['education']
+            self.__details['projects'] = raw_entity['projects']
+            self.__details['total_experience'] = self.__total_experience_year(
+            raw_entity)
+        except KeyError:
+            pass
 
     def __extract_name(self, resume_text):
         nlp_text = self.nlp(resume_text)
@@ -95,6 +148,7 @@ class resumeExtraction:
                 return None
 
     def __extract_education(self, resume_text):
+
         nlp_text = self.nlp(resume_text)
 
         # Sentence Tokenizer
@@ -132,15 +186,15 @@ class resumeExtraction:
         bigrams_trigrams = list(
             map(' '.join, nltk.everygrams(filtered_tokens, 2, 3)))
 
-        # we create a set to keep the results in.
+        # a set to keep the results in.
         found_skills = set()
 
-        # we search for each token in our skills database
+        # search for each token in our skills database
         for token in filtered_tokens:
             if token.lower() in self.SKILLS_DB:
                 found_skills.add(token)
 
-        # we search for each bigram and trigram in our skills database
+        # search for each bigram and trigram in our skills database
         for ngram in bigrams_trigrams:
             if ngram.lower() in self.SKILLS_DB:
                 found_skills.add(ngram)
@@ -169,6 +223,20 @@ class resumeExtraction:
                 entities[key].append(phrase)
         return entities
 
+    def __total_experience_year(self, raw_entity):
+        try:
+            experience = raw_entity['experience']
+            try:
+                exp = round(
+                    self.get_total_experience(experience) / 12,
+                    2
+                )
+                totalExperience = exp
+            except KeyError:
+                totalExperience = 0
+        except KeyError:
+            totalExperience = 0
+        return totalExperience
 
     def get_total_experience(self, experience_list):
 
@@ -210,57 +278,13 @@ class resumeExtraction:
             return 0
         return months_of_experience
 
-    def extractorData(self, file, ext):
-        text = ""
-        raw_text = ""
-
-        if ext == "docx":
-            temp = docx2txt.process(file)
-            text = [line.replace('\t', ' ')
-                    for line in temp.split('\n') if line]
-            text = ' '.join(text)
-        if ext == "pdf":
-            for page in fitz.open(file):
-               raw_text = raw_text + str(page.get_text())
-            text = " ".join(raw_text.split('\n'))
-        # text = self.__clean_text(text)
-        text1 = text
-        name = self.__extract_name(text)
-        mobile_no = self.__extract_mobile_number(text)
-        email = self.__extract_email(text)
-        skills = self.__extract_skills(text)
-        education1 = self.__extract_education(text)
-
-        raw_entity = self.__extract_entity_sections(raw_text)
-
-        experience = raw_entity['experience']
-        # return raw_entity['experience']
-        try:
-            experience = raw_entity['experience']
-            try:
-                exp = round(
-                    self.get_total_experience(experience) / 12,
-                    2
-                )
-                totalExperience = exp
-            except KeyError:
-                totalExperience = 0
-        except KeyError:
-            totalExperience = 0
-
-        return totalExperience, experience
-        # print(totalExperience, exp)
-
-        # return (name, experience, totalExperience)
-
-
 
 resumeExtractor = resumeExtraction()
 
-print(resumeExtractor.extractorData(
+print(resumeExtractor.get_extracted_data(
     fitz.open('assets/resume_example.pdf'), "pdf"))
-# print(resumeExtractor.extractorData(
-#     fitz.open('assets/Resume_Takinur.pdf'), "pdf"))
-print(resumeExtractor.extractorData(
-    fitz.open('assets/tmResume.pdf'), "pdf"))
+print(resumeExtractor.get_extracted_data(
+    fitz.open('assets/Resume_Takinur.pdf'), "pdf"))
+# print(resumeExtractor.get_extracted_data(
+#     fitz.open('assets/tmResume.pdf'), "pdf"))
 # pickle.dump(resumeExtractor,open("resumeExtractor.pkl","wb"))
