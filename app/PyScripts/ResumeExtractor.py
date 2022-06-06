@@ -1,4 +1,5 @@
 from tkinter import N
+from click import argument
 import spacy
 from spacy.matcher import Matcher
 import re
@@ -21,7 +22,7 @@ from datetime import datetime
 from dateutil import relativedelta
 import io
 import json
-import pprint
+from rich import print, print_json
 
 class resumeExtraction(object):
     def __init__(self, resume):
@@ -31,7 +32,8 @@ class resumeExtraction(object):
             'BE', 'BSC', 'BS',
             'ME', 'MS', 'MIS', 'BCOM', 'BCS', 'BCA', 'MCA',
             'BTECH', 'MTECH', 'DIPLOMA', '12TH', '10TH',
-            'SSC', 'HSC', 'CBSE', 'ICSE', 'X', 'XII', 'XTH', 'XIITH', 'FE', 'SE', 'TE',
+            'SSC', 'HSC', 'CBSE', 'ICSE', 'X', 'XII', 'XTH',
+            'XIITH', 'FE', 'SE', 'TE', 'BECHALORS', 'MASTERS', 'PHD'
         ]
         self.RESUME_SECTIONS_GRAD = [
             'accomplishments',
@@ -68,18 +70,17 @@ class resumeExtraction(object):
             'text': None,
         }
         self.__resume = resume
-        #Resume Extension
+        # Resume Extension
         if not isinstance(self.__resume, io.BytesIO):
             ext = os.path.splitext(self.__resume)[1].split('.')[1]
         else:
             ext = self.__resume.name.split('.')[1]
-        #Get Raw Text
+        # Get Raw Text
         self.__text_raw = self.__extract_text(self.__resume, '.' + ext)
-        #Format Raw Text
+        # Format Raw Text
         self.__text = ' '.join(self.__text_raw.split())
 
         # print(self.__text_raw)
-
 
     def __extract_text(self, file_path, extension):
         text = ''
@@ -89,7 +90,8 @@ class resumeExtraction(object):
         elif extension == '.docx':
             try:
                 temp = docx2txt.process(file_path)
-                text = [line.replace('\t', ' ') for line in temp.split('\n') if line]
+                text = [line.replace('\t', ' ')
+                        for line in temp.split('\n') if line]
                 return ' '.join(text)
             except KeyError:
                 return ' '
@@ -115,34 +117,23 @@ class resumeExtraction(object):
             self.__details['education'] = raw_entity['education']
             self.__details['projects'] = raw_entity['projects']
             self.__details['total_experience'] = self.__total_experience_year(
-            raw_entity)
+                raw_entity)
         except KeyError:
             pass
 
         return self.__details
 
     def __extract_name(self, resume_text):
-        text = '''
-        This is a sample text that contains the name Alex Smith who is one of the developers of this project.
-        You can also find the surname Jones here.
-        '''
 
-        # nltk_results = ne_chunk(pos_tag(word_tokenize(text)))
-        # for nltk_result in nltk_results:
-        #     if type(nltk_result) == Tree:
-        #         name = ''
-        #         for nltk_result_leaf in nltk_result.leaves():
-        #             name += nltk_result_leaf[0] + ' '
-        # print ('Type: ', 'Name: ', name)
-        # nlp_text = self.nlp(resume_text)
-        # pattern = [{'POS': 'PROPN'}, {'POS': 'PROPN'}]
+        nlp_text = self.nlp(resume_text)
+        pattern = [{'POS': 'PROPN'}, {'POS': 'PROPN'}]
 
-        # self.matcher.add('NAME', [pattern])
+        self.matcher.add('NAME', [pattern])
 
-        # matches = self.matcher(nlp_text)
-        # for _, start, end in matches:
-        #     span = nlp_text[start:end]
-        #     return span.text
+        matches = self.matcher(nlp_text)
+        for _, start, end in matches:
+            span = nlp_text[1-start:end]
+            return span.text
 
     def __extract_mobile_number(self, text):
         mob_num_regex = r'''(?:(?:\+?([1-9]|[0-9][0-9]|[0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|[0-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{6})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?'''
@@ -300,16 +291,35 @@ class resumeExtraction(object):
 #     parser = resumeExtraction(resume)
 #     print(parser.get_extracted_data())
 
-filleurl = 'assets/resume_t.docx'
-filleurl = 'assets/tmResume.pdf'
-filleurl = 'assets/Resume_Takinur.pdf'
-filleurl = 'assets/resume_example.pdf'
+# file_url = 'assets/resume_t.docx'
+file_url = 'assets/tmResume.pdf'
+file_url = 'assets/Resume_Takinur.pdf'
+# file_url = 'assets/resume_example.pdf'
+# file_url = 'assets/mazdul_resume.pdf'
+if __name__ == '__main__':
+    #Length of arguments
+    args_len = len(sys.argv)
+    #Check if the number of arguments is correct
+    if args_len > 1:
+        file_url = sys.argv[1]
 
-resumeExtractor = resumeExtraction(filleurl)
+    # print(file_url)
+    resumeExtractor = resumeExtraction(file_url)
 
-#returns as json object
-data = resumeExtractor.get_extracted_data()
-pprint.pprint(data['name'])
+    # returns as json object
+    data = resumeExtractor.get_extracted_data()
+
+    class SetEncoder(json.JSONEncoder):
+        def default(self, obj):
+            if isinstance(obj, set):
+                return list(obj)
+            return json.JSONEncoder.default(self, obj)
+
+    jdata = json.dumps(data['name'], cls=SetEncoder)
+
+    print_json(jdata)
+
+
 # print(data)
 # print(resumeExtractor.get_extracted_data(
 #     fitz.open('assets/resume_example.pdf'), "pdf"))
@@ -318,3 +328,6 @@ pprint.pprint(data['name'])
 # print(resumeExtractor.get_extracted_data('assets/resume_t.docx', "docx"))
 # print(resumeExtractor.get_extracted_data('assets/tmResume.pdf'), "pdf")
 # pickle.dump(resumeExtractor,open("resumeExtractor.pkl","wb"))
+
+
+
