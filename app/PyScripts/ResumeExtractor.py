@@ -8,21 +8,23 @@ import fitz
 import nltk
 # nltk.download('stopwords')
 from nltk.corpus import stopwords
-import pymongo
-from pymongo import MongoClient
 import os
 import docx2txt
 import pickle
-from nltk.tokenize import word_tokenize
+#from nltk.tokenize import word_tokenize
+from nltk import ne_chunk, pos_tag, word_tokenize
+from nltk.tree import Tree
 from nltk.stem import WordNetLemmatizer
 # nltk.download('wordnet')
 # nltk.download('omw-1.4')
 from datetime import datetime
 from dateutil import relativedelta
+import io
+import json
+import pprint
 
-
-class resumeExtraction:
-    def __init__(self):
+class resumeExtraction(object):
+    def __init__(self, resume):
         self.STOPWORDS = set(stopwords.words('english')+['``', "''"])
         # Education Degrees
         self.EDUCATION = [
@@ -62,43 +64,44 @@ class resumeExtraction:
             'degree': None,
             'projects': None,
             'experience': None,
-            'company_names': None,
             'total_experience': None,
             'text': None,
         }
+        self.__resume = resume
+        #Resume Extension
+        if not isinstance(self.__resume, io.BytesIO):
+            ext = os.path.splitext(self.__resume)[1].split('.')[1]
+        else:
+            ext = self.__resume.name.split('.')[1]
+        #Get Raw Text
+        self.__text_raw = self.__extract_text(self.__resume, '.' + ext)
+        #Format Raw Text
+        self.__text = ' '.join(self.__text_raw.split())
 
-    def get_extracted_data(self, file, extension):
-        text = ""
-        raw_text = ""
+        # print(self.__text_raw)
 
-        if extension == "pdf":
-            for page in fitz.open(file):
-                raw_text = raw_text + str(page.get_text())
-            text = " ".join(raw_text.split('\n'))
 
-        elif extension == "docx":
-            temp = docx2txt.process(file)
-            raw_text = [line.replace('\t', ' ')
-                    for line in temp.split('\n') if line]
-            text = ' '.join(raw_text)
+    def __extract_text(self, file_path, extension):
+        text = ''
+        if extension == '.pdf':
+            for page in fitz.open(file_path):
+                text = text + str(page.get_text())
+        elif extension == '.docx':
+            try:
+                temp = docx2txt.process(file_path)
+                text = [line.replace('\t', ' ') for line in temp.split('\n') if line]
+                return ' '.join(text)
+            except KeyError:
+                return ' '
+        elif extension == '.doc':
+            # text = extract_text_from_doc(file_path)
+            text = 'doc file'
+        return text
 
-        elif extension == "doc":
-            return None
-            # try:
-            #     try:
-            #         import textract
-            #     except ImportError:
-            #             return ' '
-            #     text = textract.process(doc_path).decode('utf-8')
-            #     return text
-            # except KeyError:
-            #     return ' '
+    def get_extracted_data(self):
+        text = self.__text
+        raw_text = self.__text_raw
 
-        self.__assign_details(text, raw_text)
-
-        return self.__details
-
-    def __assign_details(self, text, raw_text):
         self.__details['name'] = self.__extract_name(text)
         self.__details['mobile_number'] = self.__extract_mobile_number(text)
         self.__details['email'] = self.__extract_email(text)
@@ -116,16 +119,30 @@ class resumeExtraction:
         except KeyError:
             pass
 
+        return self.__details
+
     def __extract_name(self, resume_text):
-        nlp_text = self.nlp(resume_text)
-        pattern = [{'POS': 'PROPN'}, {'POS': 'PROPN'}]
+        text = '''
+        This is a sample text that contains the name Alex Smith who is one of the developers of this project.
+        You can also find the surname Jones here.
+        '''
 
-        self.matcher.add('NAME', [pattern])
+        # nltk_results = ne_chunk(pos_tag(word_tokenize(text)))
+        # for nltk_result in nltk_results:
+        #     if type(nltk_result) == Tree:
+        #         name = ''
+        #         for nltk_result_leaf in nltk_result.leaves():
+        #             name += nltk_result_leaf[0] + ' '
+        # print ('Type: ', 'Name: ', name)
+        # nlp_text = self.nlp(resume_text)
+        # pattern = [{'POS': 'PROPN'}, {'POS': 'PROPN'}]
 
-        matches = self.matcher(nlp_text)
-        for _, start, end in matches:
-            span = nlp_text[start:end]
-            return span.text
+        # self.matcher.add('NAME', [pattern])
+
+        # matches = self.matcher(nlp_text)
+        # for _, start, end in matches:
+        #     span = nlp_text[start:end]
+        #     return span.text
 
     def __extract_mobile_number(self, text):
         mob_num_regex = r'''(?:(?:\+?([1-9]|[0-9][0-9]|[0-9][0-9][0-9])\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([0-9][1-9]|[0-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{6})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?'''
@@ -279,12 +296,25 @@ class resumeExtraction:
         return months_of_experience
 
 
-resumeExtractor = resumeExtraction()
+# def resume_result_wrapper(resume):
+#     parser = resumeExtraction(resume)
+#     print(parser.get_extracted_data())
 
-print(resumeExtractor.get_extracted_data(
-    fitz.open('assets/resume_example.pdf'), "pdf"))
-print(resumeExtractor.get_extracted_data(
-    fitz.open('assets/Resume_Takinur.pdf'), "pdf"))
+filleurl = 'assets/resume_t.docx'
+filleurl = 'assets/tmResume.pdf'
+filleurl = 'assets/Resume_Takinur.pdf'
+filleurl = 'assets/resume_example.pdf'
+
+resumeExtractor = resumeExtraction(filleurl)
+
+#returns as json object
+data = resumeExtractor.get_extracted_data()
+pprint.pprint(data['name'])
+# print(data)
 # print(resumeExtractor.get_extracted_data(
-#     fitz.open('assets/tmResume.pdf'), "pdf"))
+#     fitz.open('assets/resume_example.pdf'), "pdf"))
+# print(resumeExtractor.get_extracted_data(
+#     fitz.open('assets/Resume_Takinur.pdf'), "pdf"))
+# print(resumeExtractor.get_extracted_data('assets/resume_t.docx', "docx"))
+# print(resumeExtractor.get_extracted_data('assets/tmResume.pdf'), "pdf")
 # pickle.dump(resumeExtractor,open("resumeExtractor.pkl","wb"))
