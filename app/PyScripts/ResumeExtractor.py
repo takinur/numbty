@@ -1,5 +1,3 @@
-from tkinter import N
-from click import argument
 import spacy
 from spacy.matcher import Matcher
 import re
@@ -8,21 +6,17 @@ import sys
 import fitz
 import nltk
 # nltk.download('stopwords')
+# nltk.download('wordnet')
+# nltk.download('omw-1.4')
 from nltk.corpus import stopwords
 import os
 import docx2txt
-import pickle
-#from nltk.tokenize import word_tokenize
-from nltk import ne_chunk, pos_tag, word_tokenize
-from nltk.tree import Tree
-from nltk.stem import WordNetLemmatizer
-# nltk.download('wordnet')
-# nltk.download('omw-1.4')
 from datetime import datetime
 from dateutil import relativedelta
 import io
 import json
 from rich import print, print_json
+
 
 class resumeExtraction(object):
     def __init__(self, resume):
@@ -133,6 +127,12 @@ class resumeExtraction(object):
         matches = self.matcher(nlp_text)
         for _, start, end in matches:
             span = nlp_text[1-start:end]
+
+            number_of_words = len(span.text.split())
+            if number_of_words < 2:
+                span = nlp_text[start:end]
+                return span.text
+            print(number_of_words)
             return span.text
 
     def __extract_mobile_number(self, text):
@@ -293,9 +293,12 @@ class resumeExtraction(object):
 
 # file_url = 'assets/resume_t.docx'
 file_url = 'assets/tmResume.pdf'
-file_url = 'assets/Resume_Takinur.pdf'
+# file_url = 'assets/Resume_Takinur.pdf'
 # file_url = 'assets/resume_example.pdf'
-# file_url = 'assets/mazdul_resume.pdf'
+file_url = 'assets/mazdul_resume.pdf'
+
+
+
 if __name__ == '__main__':
     #Length of arguments
     args_len = len(sys.argv)
@@ -303,31 +306,16 @@ if __name__ == '__main__':
     if args_len > 1:
         file_url = sys.argv[1]
 
-    # print(file_url)
-    resumeExtractor = resumeExtraction(file_url)
-
+    #Extracted data from the resume class
+    data = resumeExtraction(file_url).get_extracted_data()
     # returns as json object
-    data = resumeExtractor.get_extracted_data()
-
     class SetEncoder(json.JSONEncoder):
         def default(self, obj):
             if isinstance(obj, set):
                 return list(obj)
             return json.JSONEncoder.default(self, obj)
 
-    jdata = json.dumps(data['name'], cls=SetEncoder)
+    jdata = json.dumps(data, cls=SetEncoder)
 
     print_json(jdata)
-
-
-# print(data)
-# print(resumeExtractor.get_extracted_data(
-#     fitz.open('assets/resume_example.pdf'), "pdf"))
-# print(resumeExtractor.get_extracted_data(
-#     fitz.open('assets/Resume_Takinur.pdf'), "pdf"))
-# print(resumeExtractor.get_extracted_data('assets/resume_t.docx', "docx"))
-# print(resumeExtractor.get_extracted_data('assets/tmResume.pdf'), "pdf")
-# pickle.dump(resumeExtractor,open("resumeExtractor.pkl","wb"))
-
-
 

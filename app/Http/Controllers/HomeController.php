@@ -7,33 +7,35 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\ExecutableFinder;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        //Run python script with shell_exec
-        // $output = shell_exec('python '.app_path().'\PyScripts\hello.py');
-        // echo $output;
+        //Extract text from docx file
+        // $path = app_path('PyScripts/hello.py');
 
+        // dd($path);
+        // // //Run python script with symfony process
+        // $finder = new ExecutableFinder();
+        // if (null === $python = $finder->find('python')) {
+        //     throw new \RuntimeException('Python executable not found.');
+        // }
 
-
-        //Run python script wtih symfony process
-        $text = 'The text you are desperate to analyze :)';
-        // $process = new Process(['python', '../app/PyScripts/hello.py']);
-        $process = new Process(['python3']);
+        $process = new Process(['python3', '../app/PyScripts/hello.py']);
+        // $process = Process::fromShellCommandline('$python -v');
         $process->run();
-
-        // executes after the command finishes
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
 
-        //Get the output of the python script
-        $output = $process->getOutput();
+        // //Run python script with shell_exec
+        // $output = shell_exec('python '.app_path().'\PyScripts\hello.py');
+        // echo $output;
 
-        //Convert output to json
-        $output = json_decode($output, true);
+        $output = json_decode($process->getOutput(), true);
+
 
         dd($output);
         //Get the data from the output
