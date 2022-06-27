@@ -5,5 +5,6 @@ x = {
   "age": 30,
   "city": "New York"
 }
+
 print(json.dumps(x))
 
