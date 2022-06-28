@@ -44,6 +44,7 @@ RUN apt-get update \
         pip install PyMuPDF \
         pip install docx2txt \
         pip install -U nltk \
+        python -m nltk.downloader all \
     && npm install -g npm \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarn.gpg >/dev/null \
     && echo "deb [signed-by=/usr/share/keyrings/yarn.gpg] https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \

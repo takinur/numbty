@@ -291,11 +291,11 @@ class resumeExtraction(object):
 #     parser = resumeExtraction(resume)
 #     print(parser.get_extracted_data())
 
-# file_url = 'assets/resume_t.docx'
-file_url = 'assets/tmResume.pdf'
-# file_url = 'assets/Resume_Takinur.pdf'
-# file_url = 'assets/resume_example.pdf'
-file_url = 'assets/mazdul_resume.pdf'
+# file_url = 'assets/test_resumes/resume_t.docx'
+file_url = 'assets/test_resumes/tmResume.pdf'
+# file_url = 'assets/test_resumes/Resume_Takinur.pdf'
+# file_url = 'assets/test_resumes/Resume_of_Takinur.pdf'
+file_url = 'assets/test_resumes/mazdul_resume.pdf'
 
 
 
