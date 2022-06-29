@@ -40,10 +40,10 @@ RUN apt-get update \
         git \
         # pip install -U pip setuptools wheel \
         # pip install -U spacy \
-        pip install pandas \
-        pip install fitz \
-        pip install PyMuPDF \
-        pip install docx2txt \
+        # pip install pandas \
+        # pip install fitz \
+        # pip install PyMuPDF \
+        # pip install docx2txt \
         # pip install -U nltk \
         # python -m nltk.downloader all \
     && npm install -g npm \
