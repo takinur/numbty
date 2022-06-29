@@ -9,8 +9,8 @@ import JetApplicationLogo from '@/Jetstream/ApplicationLogo.vue';
                 <JetApplicationLogo class="block h-12 w-auto" />
             </div>
 
-            <div class="mt-8 text-2xl">
-                Welcome to your Jetstream application!
+            <div class="mt-8 text-2xl text-green-400">
+                Welcome to your Jetstream application! Noni
             </div>
 
             <div class="mt-6 text-gray-500">

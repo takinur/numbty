@@ -23,7 +23,8 @@ class HomeController extends Controller
         //     throw new \RuntimeException('Python executable not found.');
         // }
 
-        $process = new Process(['python3', '../app/PyScripts/ResumeExtractor.py']);
+        $process = new Process(['python3', '../app/PyScripts/hello.py']);
+        // $process = new Process(['python3', '../app/PyScripts/ResumeExtractor.py']);
         // $process = Process::fromShellCommandline('$python -v');
         $process->run();
         if (!$process->isSuccessful()) {

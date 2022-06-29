@@ -298,7 +298,7 @@ file_url = 'assets/test_resumes/tmResume.pdf'
 file_url = 'assets/test_resumes/mazdul_resume.pdf'
 
 
-
+# Argument from command line
 if __name__ == '__main__':
     #Length of arguments
     args_len = len(sys.argv)
