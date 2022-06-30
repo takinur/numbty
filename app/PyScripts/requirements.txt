@@ -1,1 +1,9 @@
 # To ensure app dependencies are ported from your virtual environment/host machine into your container, run 'pip freeze > requirements.txt' in the terminal to overwrite this file
+# pip install -U pip setuptools wheel \
+# pip install -U spacy \
+# pip install pandas \
+# pip install fitz \
+# pip install PyMuPDF \
+# pip install docx2txt \
+# pip install -U nltk \
+# python -m nltk.downloader all \
