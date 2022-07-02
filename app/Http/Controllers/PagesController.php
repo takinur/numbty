@@ -9,23 +9,18 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\ExecutableFinder;
 
-class HomeController extends Controller
+class PagesController extends Controller
 {
     public function index()
     {
-        //Extract text from docx file
-        // $path = app_path('PyScripts/hello.py');
 
-        // dd($path);
-        // // //Run python script with symfony process
         // $finder = new ExecutableFinder();
-        // if (null === $python = $finder->find('python')) {
+        // $python = $finder->find('python');
+        // if (null === $python ) {
         //     throw new \RuntimeException('Python executable not found.');
         // }
-
         $process = new Process(['python3', '../app/PyScripts/hello.py']);
-        // $process = new Process(['python3', '../app/PyScripts/ResumeExtractor.py']);
-        // $process = Process::fromShellCommandline('$python -v');
+        // // $process = new Process(['python3', '../app/PyScripts/ResumeExtractor.py']);
         $process->run();
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);

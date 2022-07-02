@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +17,7 @@ use App\Http\Controllers\HomeController;
 */
 
 //Home Route
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [PagesController::class, 'index'])->name('home');
 
 Route::middleware([
     'auth:sanctum',
