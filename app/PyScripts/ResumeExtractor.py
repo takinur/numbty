@@ -18,6 +18,7 @@ import json
 from rich import print, print_json
 
 
+
 class resumeExtraction(object):
     def __init__(self, resume):
         self.STOPWORDS = set(stopwords.words('english')+['``', "''"])
@@ -45,7 +46,7 @@ class resumeExtraction(object):
             'leadership'
         ]
         # Skills File
-        self.data = pd.read_csv("assets/data/skillsDB.csv")
+        self.data = pd.read_csv('assets/data/skillsDB.csv')
         self.SKILLS_DB = list(self.data.columns.values)
         # Natural Language and vocabulary
         self.nlp = spacy.load('en_core_web_sm')
@@ -170,7 +171,7 @@ class resumeExtraction(object):
                 if tex.upper() in self.EDUCATION and tex not in self.STOPWORDS:
                     edu[tex] = text + nlp_text[index + 1]
 
-        # Extract year
+        # Extract year of education
         education = []
         for key in edu.keys():
             year = re.search(re.compile(r'(((20|19)(\d{2})))'), edu[key])
@@ -292,10 +293,10 @@ class resumeExtraction(object):
 #     print(parser.get_extracted_data())
 
 # file_url = 'assets/test_resumes/resume_t.docx'
-file_url = 'assets/test_resumes/tmResume.pdf'
+# file_url = 'assets/test_resumes/tmResume.pdf'
 # file_url = 'assets/test_resumes/Resume_Takinur.pdf'
-# file_url = 'assets/test_resumes/Resume_of_Takinur.pdf'
-file_url = 'assets/test_resumes/mazdul_resume.pdf'
+file_url = 'assets/test_resumes/Resume_of_Takinur.pdf'
+# file_url = 'assets/test_resumes/mazdul_resume.pdf'
 
 
 # Argument from command line
@@ -319,3 +320,7 @@ if __name__ == '__main__':
 
     print_json(jdata)
 
+# TODO
+# Fix Name entity
+# Fix Education entity
+# Grab Social media links
