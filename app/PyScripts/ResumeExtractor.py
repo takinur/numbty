@@ -24,7 +24,7 @@ class resumeExtraction(object):
         self.STOPWORDS = set(stopwords.words('english')+['``', "''"])
         # Education Degrees
         self.EDUCATION = [
-            'BE', 'BSC', 'BS',
+            'BE', 'BSC', 'BS', 'MSC', 'HONOURS',
             'ME', 'MS', 'MIS', 'BCOM', 'BCS', 'BCA', 'MCA',
             'BTECH', 'MTECH', 'DIPLOMA', '12TH', '10TH',
             'SSC', 'HSC', 'CBSE', 'ICSE', 'X', 'XII', 'XTH',
@@ -34,13 +34,16 @@ class resumeExtraction(object):
             'accomplishments',
             'experience',
             'education',
+            'education history',
             'interests',
             'projects',
             'professional experience',
+            'work experience',
             'publications',
             'skills',
             'certifications',
             'objective',
+            'profile',
             'career objective',
             'summary',
             'leadership'
@@ -105,7 +108,7 @@ class resumeExtraction(object):
         self.__details['skills'] = self.__extract_skills(text)
         self.__details['degree'] = self.__extract_education(text)
         # Text that is essential for further processing
-        self.__details['text'] = text
+        # self.__details['text'] = text
         raw_entity = self.__extract_entity_sections(raw_text)
         try:
             self.__details['experience'] = raw_entity['experience']
@@ -292,7 +295,7 @@ class resumeExtraction(object):
 #     parser = resumeExtraction(resume)
 #     print(parser.get_extracted_data())
 
-file_url = 'assets/test_resumes/resume_t.docx'
+file_url = 'assets/test_resumes/T_002.docx'
 # file_url = 'assets/test_resumes/tmResume.pdf'
 # file_url = 'assets/test_resumes/Resume_Takinur.pdf'
 # file_url = 'assets/test_resumes/Resume_of_Takinur.pdf'
