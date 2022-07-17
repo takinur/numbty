@@ -18,7 +18,6 @@ import json
 from rich import print, print_json
 
 
-
 class resumeExtraction(object):
     def __init__(self, resume):
         self.STOPWORDS = set(stopwords.words('english')+['``', "''"])
@@ -101,7 +100,7 @@ class resumeExtraction(object):
     def get_extracted_data(self):
         text = self.__text
         raw_text = self.__text_raw
-
+        # print (raw_text)
         self.__details['name'] = self.__extract_name(text)
         self.__details['mobile_number'] = self.__extract_mobile_number(text)
         self.__details['email'] = self.__extract_email(text)
@@ -321,7 +320,7 @@ if __name__ == '__main__':
 
 # TODO
 '''
-Fix Name Entity
+Fix Name Entity ->> Text is not in the correct format ->> Google Collab
 Fix Education Entity
 Grab Social media links
 Extract Text from DOC

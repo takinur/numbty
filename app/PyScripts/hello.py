@@ -1,4 +1,7 @@
 import json
+import spacy
+from spacy import displacy
+from rich import print, print_json
 
 x = {
   "name": "John",
@@ -6,5 +9,14 @@ x = {
   "city": "London"
 }
 
-print(json.dumps(x))
+# data = json.dumps(x)
 
+# print_json(data)
+
+
+
+text = "When Sebastian Thrun started working on self-driving cars at Google in 2007, few people outside of the company took him seriously."
+
+nlp = spacy.load("en_core_web_sm")
+doc = nlp(text)
+print(doc)
