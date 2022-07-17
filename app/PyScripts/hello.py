@@ -3,7 +3,7 @@ import json
 x = {
   "name": "John",
   "age": 30,
-  "city": "New York"
+  "city": "London"
 }
 
 print(json.dumps(x))

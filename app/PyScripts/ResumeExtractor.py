@@ -162,7 +162,6 @@ class resumeExtraction(object):
     def __extract_education(self, resume_text):
 
         nlp_text = self.nlp(resume_text)
-
         # Sentence Tokenizer
         nlp_text = [str(sent).strip() for sent in nlp_text.sents]
         edu = {}
@@ -291,15 +290,11 @@ class resumeExtraction(object):
         return months_of_experience
 
 
-# def resume_result_wrapper(resume):
-#     parser = resumeExtraction(resume)
-#     print(parser.get_extracted_data())
 
-file_url = 'assets/test_resumes/T_002.docx'
-# file_url = 'assets/test_resumes/tmResume.pdf'
-# file_url = 'assets/test_resumes/Resume_Takinur.pdf'
-# file_url = 'assets/test_resumes/Resume_of_Takinur.pdf'
-# file_url = 'assets/test_resumes/mazdul_resume.pdf'
+file_url = 'assets/test_resumes/T_001.pdf'
+# file_url = 'assets/test_resumes/T_002.docx'
+# file_url = 'assets/test_resumes/T_003.pdf'
+# file_url = 'assets/test_resumes/T_004.pdf'
 
 
 # Argument from command line
@@ -329,6 +324,7 @@ if __name__ == '__main__':
 Fix Name Entity
 Fix Education Entity
 Grab Social media links
+Extract Text from DOC
 
 
 '''
