@@ -7,3 +7,4 @@
 # pip install docx2txt \
 # pip install -U nltk \
 # python -m nltk.downloader all \
+# pip install rich
