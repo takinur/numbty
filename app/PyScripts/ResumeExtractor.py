@@ -318,12 +318,11 @@ if __name__ == '__main__':
     print_json(jdata)
 
 
-# TODO
 '''
-Fix Name Entity ->> Text is not in the correct format ->> Google Collab
-Fix Education Entity
-Grab Social media links
-Extract Text from DOC
+TODO:Fix Name Entity ->> Text is not in the correct format ->> Google Collab
+FIXME: Fix Education Entity
+TODO:Grab Social media links
+TODO:Extract Text from DOC
 
 
 '''
