@@ -68,6 +68,7 @@ class resumeExtraction(object):
         }
         self.__resume = resume
         # Resume Extension
+        #TODO: Check if file Exist and if not raise error
         if not isinstance(self.__resume, io.BytesIO):
             ext = os.path.splitext(self.__resume)[1].split('.')[1]
         else:
@@ -106,8 +107,8 @@ class resumeExtraction(object):
         self.__details['email'] = self.__extract_email(text)
         self.__details['skills'] = self.__extract_skills(text)
         self.__details['degree'] = self.__extract_education(text)
-        # Text that is essential for further processing
-        # self.__details['text'] = text
+        #IMPORTANT: Text that is essential for further processing
+        self.__details['text'] = text
         raw_entity = self.__extract_entity_sections(raw_text)
         try:
             self.__details['experience'] = raw_entity['experience']
@@ -119,7 +120,7 @@ class resumeExtraction(object):
             pass
 
         return self.__details
-
+    #FIXME: Name is incorrect
     def __extract_name(self, resume_text):
 
         nlp_text = self.nlp(resume_text)
