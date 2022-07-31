@@ -60,7 +60,6 @@ class resumeExtraction(object):
             'mobile_number': None,
             'skills': None,
             'education': None,
-            'degree': None,
             'projects': None,
             'experience': None,
             'total_experience': None,
@@ -106,9 +105,8 @@ class resumeExtraction(object):
         self.__details['mobile_number'] = self.__extract_mobile_number(text)
         self.__details['email'] = self.__extract_email(text)
         self.__details['skills'] = self.__extract_skills(text)
-        self.__details['degree'] = self.__extract_education(text)
         #IMPORTANT: Text that is essential for further processing
-        self.__details['text'] = text
+        # self.__details['text'] = text
         raw_entity = self.__extract_entity_sections(raw_text)
         try:
             self.__details['experience'] = raw_entity['experience']
@@ -118,8 +116,12 @@ class resumeExtraction(object):
                 raw_entity)
         except KeyError:
             pass
+        #if no education section is found, then try to extract education again
+        if not self.__details['education']:
+            self.__details['education'] = self.__extract_education(text)
 
         return self.__details
+
     #FIXME: Name is incorrect for some resumes
     def __extract_name(self, resume_text):
 
