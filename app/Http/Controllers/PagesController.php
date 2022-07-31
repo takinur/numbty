@@ -14,6 +14,13 @@ class PagesController extends Controller
     public function index()
     {
 
+        return Inertia::render('Welcome', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => '9.5',
+            'phpVersion' => PHP_VERSION,
+        ]);
+
         // $finder = new ExecutableFinder();
         // $python = $finder->find('python');
         // if (null === $python ) {
@@ -38,11 +45,6 @@ class PagesController extends Controller
         $data = $output["data"];
 
 
-        return Inertia::render('Welcome', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => '9.5',
-            'phpVersion' => PHP_VERSION,
-        ]);
+
     }
 }

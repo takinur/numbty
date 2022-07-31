@@ -120,7 +120,7 @@ class resumeExtraction(object):
             pass
 
         return self.__details
-    #FIXME: Name is incorrect
+    #FIXME: Name is incorrect for some resumes
     def __extract_name(self, resume_text):
 
         nlp_text = self.nlp(resume_text)
@@ -318,9 +318,7 @@ if __name__ == '__main__':
 
     print_json(jdata)
 
-
 '''
-TODO:Fix Name Entity ->> Text is not in the correct format ->> Google Collab
 FIXME: Fix Education Entity
 TODO:Grab Social media links
 TODO:Extract Text from DOC
