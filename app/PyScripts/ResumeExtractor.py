@@ -321,7 +321,6 @@ if __name__ == '__main__':
     print_json(jdata)
 
 '''
-FIXME: Fix Education Entity
 TODO:Grab Social media links
 TODO:Extract Text from DOC
 
