@@ -322,7 +322,7 @@ if __name__ == '__main__':
 
 '''
 TODO:Grab Social media links
-TODO:Extract Text from DOC
+TODO:Extract Text from DOC format
 
 
 '''
