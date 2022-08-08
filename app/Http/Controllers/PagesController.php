@@ -12,15 +12,12 @@ class PagesController extends Controller
     public function index()
     {
 
-        $response = Http::get('http://127.0.0.1:5000');
-        $response = Http::get('http://127.0.0.1:5000/items/25');
+        $response = Http::get('http://127.0.0.1:5000/api/v1/resume/takinur');
+        // $response = Http::get('http://127.0.0.1:5000/');
 
-        $response = Http::get('http://127.0.0.1:5000/items/05', [
-            'name' => 'John Doe',
-            'email' => 0,
-        ]);
-
-        dd($response->json());
+        $responseData = $response->json();
+        // dd($responseData['name']);
+        dd($responseData);
 
         return Inertia::render('Home', [
             'canLogin' => Route::has('login'),

@@ -298,6 +298,11 @@ file_url = 'assets/test_resumes/T_001.pdf'
 # file_url = 'assets/test_resumes/T_003.pdf'
 # file_url = 'assets/test_resumes/T_004.pdf'
 
+#explicit function to return the text from file
+def resume_result_wrapper(resume):
+    parser = resumeExtraction(resume)
+    return parser.get_extracted_data()
+
 
 # Argument from command line
 if __name__ == '__main__':
