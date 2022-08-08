@@ -12,7 +12,12 @@ class PagesController extends Controller
     public function index()
     {
 
-        $response = Http::get('http://127.0.0.1:5000/api/v1/resume/takinur');
+        // $response = Http::get('http://127.0.0.1:5000/api/v1/resume/takinur');
+
+        $response = Http::post('http://127.0.0.1:5000/api/v1/resume-extract/', [
+            'name' => 'Takinur',
+            'resume' => 'assets/test_resumes/T_001.pdf'
+        ]);
         // $response = Http::get('http://127.0.0.1:5000/');
 
         $responseData = $response->json();

@@ -67,7 +67,7 @@ class resumeExtraction(object):
         }
         self.__resume = resume
         # Resume Extension
-        #TODO: Check if file Exist and if not raise error
+        # TODO: Check if file Exist and if not raise error
         if not isinstance(self.__resume, io.BytesIO):
             ext = os.path.splitext(self.__resume)[1].split('.')[1]
         else:
@@ -105,7 +105,7 @@ class resumeExtraction(object):
         self.__details['mobile_number'] = self.__extract_mobile_number(text)
         self.__details['email'] = self.__extract_email(text)
         self.__details['skills'] = self.__extract_skills(text)
-        #IMPORTANT: Text that is essential for further processing
+        # IMPORTANT: Text that is essential for further processing
         # self.__details['text'] = text
         raw_entity = self.__extract_entity_sections(raw_text)
         try:
@@ -116,13 +116,13 @@ class resumeExtraction(object):
                 raw_entity)
         except KeyError:
             pass
-        #if no education section is found, then try to extract education again
+        # if no education section is found, then try to extract education again
         if not self.__details['education']:
             self.__details['education'] = self.__extract_education(text)
 
         return self.__details
 
-    #FIXME: Name is incorrect for some resumes
+    # FIXME: Name is incorrect for some resumes
     def __extract_name(self, resume_text):
 
         nlp_text = self.nlp(resume_text)
@@ -292,29 +292,31 @@ class resumeExtraction(object):
         return months_of_experience
 
 
-
 file_url = 'assets/test_resumes/T_001.pdf'
 # file_url = 'assets/test_resumes/T_002.docx'
 # file_url = 'assets/test_resumes/T_003.pdf'
 # file_url = 'assets/test_resumes/T_004.pdf'
 
-#explicit function to return the text from file
+# explicit function to return the text from file
+
+
 def resume_result_wrapper(resume):
-    parser = resumeExtraction(resume)
-    return parser.get_extracted_data()
+    parser = resumeExtraction(resume).get_extracted_data()
+    return parser
 
 
-# Argument from command line
+# Take Argument from command line and Extract resume
 if __name__ == '__main__':
-    #Length of arguments
+    # Length of arguments
     args_len = len(sys.argv)
-    #Check if the number of arguments is correct
+    # Check if the number of arguments is correct
     if args_len > 1:
         file_url = sys.argv[1]
 
-    #Extracted data from the resume class
+    # Extracted data from the resume class
     data = resumeExtraction(file_url).get_extracted_data()
     # returns as json object
+
     class SetEncoder(json.JSONEncoder):
         def default(self, obj):
             if isinstance(obj, set):
