@@ -3,14 +3,14 @@ import { useForm, usePage } from '@inertiajs/inertia-react';
 import axios from 'axios';
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import JetActionSection from '@/Jetstream/ActionSection';
-import JetButton from '@/Jetstream/Button';
-import JetConfirmsPassword from '@/Jetstream/ConfirmsPassword';
-import JetDangerButton from '@/Jetstream/DangerButton';
-import JetSecondaryButton from '@/Jetstream/SecondaryButton';
-import JetLabel from '@/Jetstream/Label';
-import JetInput from '@/Jetstream/Input';
-import JetInputError from '@/Jetstream/InputError';
+import JetActionSection from '@/Components/ActionSection';
+import JetButton from '@/Components/Button';
+import JetConfirmsPassword from '@/Components/ConfirmsPassword';
+import JetDangerButton from '@/Components/DangerButton';
+import JetSecondaryButton from '@/Components/SecondaryButton';
+import JetLabel from '@/Components/Label';
+import JetInput from '@/Components/Input';
+import JetInputError from '@/Components/InputError';
 
 interface Props {
   requiresConfirmation: boolean;

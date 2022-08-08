@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import JetModal, { ModalProps } from '@/Jetstream/Modal';
+import JetModal, { ModalProps } from '@/Components/Modal';
 
 JetConfirmationModal.Content = function JetConfirmationModalContent({
   title,

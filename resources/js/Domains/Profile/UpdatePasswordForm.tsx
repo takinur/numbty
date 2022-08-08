@@ -2,12 +2,12 @@ import { useForm } from '@inertiajs/inertia-react';
 import classNames from 'classnames';
 import React, { useRef } from 'react';
 import useRoute from '@/Hooks/useRoute';
-import JetActionMessage from '@/Jetstream/ActionMessage';
-import JetButton from '@/Jetstream/Button';
-import JetFormSection from '@/Jetstream/FormSection';
-import JetInput from '@/Jetstream/Input';
-import JetInputError from '@/Jetstream/InputError';
-import JetLabel from '@/Jetstream/Label';
+import JetActionMessage from '@/Components/ActionMessage';
+import JetButton from '@/Components/Button';
+import JetFormSection from '@/Components/FormSection';
+import JetInput from '@/Components/Input';
+import JetInputError from '@/Components/InputError';
+import JetLabel from '@/Components/Label';
 
 export default function UpdatePasswordForm() {
   const route = useRoute();

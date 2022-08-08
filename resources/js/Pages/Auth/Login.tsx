@@ -2,12 +2,12 @@ import { InertiaLink, useForm, Head } from '@inertiajs/inertia-react';
 import classNames from 'classnames';
 import React from 'react';
 import useRoute from '@/Hooks/useRoute';
-import JetAuthenticationCard from '@/Jetstream/AuthenticationCard';
-import JetButton from '@/Jetstream/Button';
-import JetCheckbox from '@/Jetstream/Checkbox';
-import JetInput from '@/Jetstream/Input';
-import JetLabel from '@/Jetstream/Label';
-import JetValidationErrors from '@/Jetstream/ValidationErrors';
+import JetAuthenticationCard from '@/Components/AuthenticationCard';
+import JetButton from '@/Components/Button';
+import JetCheckbox from '@/Components/Checkbox';
+import JetInput from '@/Components/Input';
+import JetLabel from '@/Components/Label';
+import JetValidationErrors from '@/Components/ValidationErrors';
 
 interface Props {
   canResetPassword: boolean;

@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo';
+import JetAuthenticationCardLogo from '@/Components/AuthenticationCardLogo';
 
 export default function JetAuthenticationCard({
   children,

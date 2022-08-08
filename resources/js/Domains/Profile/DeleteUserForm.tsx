@@ -2,12 +2,12 @@ import { useForm } from '@inertiajs/inertia-react';
 import classNames from 'classnames';
 import React, { useRef, useState } from 'react';
 import useRoute from '@/Hooks/useRoute';
-import JetActionSection from '@/Jetstream/ActionSection';
-import JetDangerButton from '@/Jetstream/DangerButton';
-import JetDialogModal from '@/Jetstream/DialogModal';
-import JetInput from '@/Jetstream/Input';
-import JetInputError from '@/Jetstream/InputError';
-import JetSecondaryButton from '@/Jetstream/SecondaryButton';
+import JetActionSection from '@/Components/ActionSection';
+import JetDangerButton from '@/Components/DangerButton';
+import JetDialogModal from '@/Components/DialogModal';
+import JetInput from '@/Components/Input';
+import JetInputError from '@/Components/InputError';
+import JetSecondaryButton from '@/Components/SecondaryButton';
 
 export default function DeleteUserForm() {
   const route = useRoute();

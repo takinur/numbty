@@ -4,12 +4,12 @@ import classNames from 'classnames';
 import React, { PropsWithChildren, useState } from 'react';
 import useRoute from '@/Hooks/useRoute';
 import useTypedPage from '@/Hooks/useTypedPage';
-import JetApplicationMark from '@/Jetstream/ApplicationMark';
-import JetBanner from '@/Jetstream/Banner';
-import JetDropdown from '@/Jetstream/Dropdown';
-import JetDropdownLink from '@/Jetstream/DropdownLink';
-import JetNavLink from '@/Jetstream/NavLink';
-import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink';
+import JetApplicationMark from '@/Components/ApplicationMark';
+import JetBanner from '@/Components/Banner';
+import JetDropdown from '@/Components/Dropdown';
+import JetDropdownLink from '@/Components/DropdownLink';
+import JetNavLink from '@/Components/NavLink';
+import JetResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Team } from '@/types';
 
 interface Props {

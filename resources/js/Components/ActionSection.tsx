@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import JetSectionTitle from '@/Jetstream/SectionTitle';
+import JetSectionTitle from '@/Components/SectionTitle';
 
 interface Props {
   title: string;

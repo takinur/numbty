@@ -1,5 +1,5 @@
 import React from 'react';
-import JetApplicationLogo from '@/Jetstream/ApplicationLogo';
+import JetApplicationLogo from '@/Components/ApplicationLogo';
 
 export default function Welcome() {
   return (
