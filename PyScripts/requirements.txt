@@ -9,3 +9,4 @@
 # pip install -U nltk \
 # python -m nltk.downloader all \
 # pip install rich
+# pip install "fastapi[all]"
