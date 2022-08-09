@@ -12,24 +12,22 @@ class PagesController extends Controller
     public function index()
     {
 
-        // $response = Http::get('http://127.0.0.1:5000/api/v1/resume/takinur');
+        // $response = Http::post('http://127.0.0.1:5000/api/v1/resume-extract/', [
+        //     'name' => 'Takinur',
+        //     'resume' => 'assets/test_resumes/T_004.pdf'
+        // ]);
+        // // $response = Http::get('http://127.0.0.1:5000/');
 
-        $response = Http::post('http://127.0.0.1:5000/api/v1/resume-extract/', [
-            'name' => 'Takinur',
-            'resume' => 'assets/test_resumes/T_004.pdf'
-        ]);
-        // $response = Http::get('http://127.0.0.1:5000/');
-
-        $responseData = $response->json();
-        // dd($responseData['name']);
-        dd($responseData);
-
+        // $responseData = $response->json();
+        // // dd($responseData['name']);
+        // dd($responseData);
+        $response = 'Hello World';
         return Inertia::render('Home', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => '9.5',
             'phpVersion' => PHP_VERSION,
-            'context' => $response->json(),
+            'context' => $response,
         ]);
 
 
