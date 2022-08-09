@@ -1,12 +1,108 @@
-# TODO: Add these Requirements Later to docker-compose.yml
-# To ensure app dependencies are ported from your virtual environment/host machine into your container, run 'pip freeze > requirements.txt' in the terminal to overwrite this file
-# pip install -U pip setuptools wheel \
-# pip install -U spacy \
-# pip install pandas \
-# pip install fitz \
-# pip install PyMuPDF \
-# pip install docx2txt \
-# pip install -U nltk \
-# python -m nltk.downloader all \
-# pip install rich
-# pip install "fastapi[all]"
+aiofiles==0.8.0
+anyio==3.6.1
+asgiref==3.5.2
+attrs==21.4.0
+autopep8==1.6.0
+blis==0.7.7
+catalogue==2.0.7
+certifi==2022.5.18.1
+cffi==1.15.0
+chardet==4.0.0
+charset-normalizer==2.0.12
+ci-info==0.2.0
+click==8.1.3
+colorama==0.4.4
+commonmark==0.9.1
+configobj==5.0.6
+configparser==5.2.0
+cryptography==37.0.2
+cymem==2.0.6
+distlib==0.3.5
+Django==4.0.4
+dnspython==2.2.1
+docx2txt==0.8
+email-validator==1.2.1
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.3.0/en_core_web_sm-3.3.0-py3-none-any.whl
+etelemetry==0.3.0
+fastapi==0.79.0
+filelock==3.7.0
+fitz==0.0.1.dev2
+frontend==0.0.3
+future==0.18.2
+h11==0.13.0
+httplib2==0.20.4
+httptools==0.4.0
+idna==3.3
+isodate==0.6.1
+itsdangerous==2.1.2
+Jinja2==3.1.2
+joblib==1.1.0
+jsonschema==4.5.1
+langcodes==3.3.0
+looseversion==1.0.1
+lxml==4.8.0
+MarkupSafe==2.1.1
+murmurhash==1.0.7
+networkx==2.8.2
+nibabel==3.2.2
+nipype==1.8.1
+nltk==3.7
+numpy==1.22.4
+orjson==3.7.11
+packaging==21.3
+pandas==1.4.2
+parse==1.6.5
+pathlib==1.0.1
+pathy==0.6.1
+pdfminer.six==20220524
+platformdirs==2.5.2
+preshed==3.0.6
+prov==2.0.0
+pycodestyle==2.8.0
+pycparser==2.21
+pycryptodome==3.14.1
+pydantic==1.8.2
+pydot==1.4.2
+Pygments==2.12.0
+pymongo==4.1.1
+PyMuPDF==1.19.6
+pyparsing==3.0.9
+pyrsistent==0.18.1
+python-dateutil==2.8.2
+python-dotenv==0.20.0
+python-multipart==0.0.5
+pytils==0.4.1
+pytz==2022.1
+pyxnat==1.4
+PyYAML==6.0
+rdflib==6.1.1
+regex==2022.4.24
+requests==2.27.1
+rich==12.4.4
+scipy==1.8.1
+simplejson==3.17.6
+six==1.16.0
+smart-open==5.2.1
+sniffio==1.2.0
+sortedcontainers==2.4.0
+spacy==3.3.0
+spacy-legacy==3.0.9
+spacy-loggers==1.0.2
+sqlparse==0.4.2
+srsly==2.4.3
+starlette==0.19.1
+thinc==8.0.16
+toml==0.10.2
+tools==0.1.9
+tqdm==4.64.0
+traits==6.3.2
+typer==0.4.1
+typing_extensions==4.2.0
+tzdata==2022.1
+ujson==5.4.0
+urllib3==1.26.9
+uvicorn==0.17.6
+virtualenv==20.16.3
+wasabi==0.9.1
+watchgod==0.8.2
+websockets==10.3

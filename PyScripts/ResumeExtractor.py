@@ -2,18 +2,16 @@ import spacy
 from spacy.matcher import Matcher
 import re
 import pandas as pd
-import sys
+import sys, os, io
 import fitz
 import nltk
 # nltk.download('stopwords')
 # nltk.download('wordnet')
 # nltk.download('omw-1.4')
 from nltk.corpus import stopwords
-import os
 import docx2txt
 from datetime import datetime
 from dateutil import relativedelta
-import io
 import json
 from rich import print, print_json
 
@@ -298,8 +296,6 @@ file_url = 'assets/test_resumes/T_001.pdf'
 # file_url = 'assets/test_resumes/T_004.pdf'
 
 # explicit function to return the text from file
-
-
 def resume_result_wrapper(resume):
     parser = resumeExtraction(resume).get_extracted_data()
     return parser
@@ -315,8 +311,8 @@ if __name__ == '__main__':
 
     # Extracted data from the resume class
     data = resumeExtraction(file_url).get_extracted_data()
-    # returns as json object
 
+    # returns as json object
     class SetEncoder(json.JSONEncoder):
         def default(self, obj):
             if isinstance(obj, set):

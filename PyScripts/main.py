@@ -21,11 +21,11 @@ async def getInformation(info: Request):
     return resume_result_wrapper(resume)
 
 
-@app.get('/api/v1/resume/{file_url}')
-async def extract_resume(file_url):
-    # TODO:Parameter from Laravel Controller
-    file_url = 'assets/test_resumes/T_001.pdf'
-    return resume_result_wrapper(file_url)
+# @app.get('/api/v1/resume/{file_url}')
+# async def extract_resume(file_url):
+#     # TODO:Parameter from Laravel Controller
+#     file_url = 'assets/test_resumes/T_001.pdf'
+#     return resume_result_wrapper(file_url)
 
 
 fake_items_db = [{"item_name": "Foo"}, {
