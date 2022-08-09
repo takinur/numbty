@@ -19,6 +19,14 @@ use App\Http\Controllers\PagesController;
 //Home Route
 Route::get('/', [PagesController::class, 'index'])->name('home');
 
+//Super-admin
+// Route::middleware([
+//     'auth:sanctum',
+//     'role:super-admin',
+// ])->group(function () {
+//     Route::get('/', [PagesController::class, 'index'])->name('home');
+// });
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
