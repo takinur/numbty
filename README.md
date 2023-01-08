@@ -9,7 +9,6 @@
   </a>
 </p>
 
-> Talent screening that is accurate, fast, and fair developed with Laravel, Vue, Python, Tensorflow
 ### ✨ [Demo](https://takinur.github.io/)
 
 ## Clone this Repo
